@@ -8,6 +8,12 @@ local Tab = Window:MakeTab({
 	PremiumOnly = false
 })
 
+local Tab2 = Window:MakeTab({
+	Name = "ComBat",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
 
 Tab:AddDropdown({
 	Name = "Select Fast Attack",
@@ -174,4 +180,35 @@ end)
         end
     end)
     
-    
+------------ComBat
+local Playerslist = {} -- Khai báo và khởi tạo biến Playerslist ở đầu đoạn mã
+
+-- Tạo dropdown để chọn người chơi
+local SelectedPly = Tab2:AddDropdown({
+    Name = "Select Player",
+    Default = "1",
+    Options = {},
+    Callback = function(Value)
+    _G.SelectPly = Value
+         Playerslist = {} -- Xóa danh sách người chơi cũ
+
+        -- Lặp qua danh sách người chơi và thêm vào Playerslist
+        for _, player in ipairs(game:GetService("Players"):GetPlayers()) do
+            table.insert(Playerslist, player.Name)
+        end
+    end
+})
+
+Tab2:AddToggle({
+    Name = "Tele Player",
+    Default = false,
+    Callback = function(Value)
+	_G.TeleportPly = Value
+        pcall(function()
+            if _G.TeleportPly then
+                repeat topos(game:GetService("Players")[_G.SelectPly].Character.HumanoidRootPart.CFrame) wait() until _G.TeleportPly == false
+            end
+            StopTween(_G.TeleportPly)
+        end)
+    end) 
+})
