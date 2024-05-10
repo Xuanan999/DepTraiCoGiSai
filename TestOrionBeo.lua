@@ -181,21 +181,18 @@ end)
     end)
     
 ------------ComBat
-local Playerslist = {} -- Khai báo và khởi tạo biến Playerslist ở đầu đoạn mã
+Playerslist = {}
+    
+    for i,v in pairs(game:GetService("Players"):GetChildren()) do
+        table.insert(Playerslist,v.Name)
+    end
 
--- Tạo dropdown để chọn người chơi
-local SelectedPly = Tab2:AddDropdown({
+Tab2:AddDropdown({Playerslist
     Name = "Select Player",
     Default = "1",
-    Options = {},
+    Options = Playerslist,
     Callback = function(Value)
     _G.SelectPly = Value
-         Playerslist = {} -- Xóa danh sách người chơi cũ
-
-        -- Lặp qua danh sách người chơi và thêm vào Playerslist
-        for _, player in ipairs(game:GetService("Players"):GetPlayers()) do
-            table.insert(Playerslist, player.Name)
-        end
     end
 })
 
